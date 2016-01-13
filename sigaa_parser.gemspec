@@ -27,8 +27,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'mechanize', '~> 2.7'
-  spec.add_dependency 'launchy', '~> 2.7'
+  spec.add_dependency 'activesupport', '~> 4.2'
 
+  spec.add_development_dependency 'launchy', '~> 2.4'
   spec.add_development_dependency 'bundler', '~> 1.10'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec'
