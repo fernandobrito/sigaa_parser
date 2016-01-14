@@ -1,7 +1,8 @@
 module SigaaParser
+  class AuthenticationFailed < Exception ; end
+
   class Parser
-    def initialize(url)
-      @url = url
+    def initialize
       @agent = Mechanize.new
     end
 
@@ -10,19 +11,25 @@ module SigaaParser
       page = @agent.get('https://sigaa.ufpb.br/sigaa/verTelaLogin.do')
       form = page.forms.first
 
-      form.field_with(name: 'user.login').value = ''
-      form.field_with(name: 'user.senha').value = ''
+      form.field_with(name: 'user.login').value = login
+      form.field_with(name: 'user.senha').value = password
 
       page = form.submit
+
+      # Check if login worked
+      if page.search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
+        raise SigaaParser::AuthenticationFailed.new
+      end
 
       # Choose enrollment (optional?)
       page = @agent.get('https://sigaa.ufpb.br/sigaa/escolhaVinculo.do?dispatch=escolher&vinculo=1')
 
       # Save some data
-      @student_id = page.search("//td[contains(., 'Matrícula')]/following-sibling::td[1]").text.strip
-      @program = page.search("//td[contains(., 'Curso:')]/following-sibling::td[1]").text.strip
+      id = page.search("//td[contains(., 'Matrícula')]/following-sibling::td[1]").text.remove_tabulation
+      name = page.search('.nome').text.remove_tabulation
+      program = page.search("//td[contains(., 'Curso:')]/following-sibling::td[1]").text.remove_tabulation
 
-      page.open_in_browser
+      return SigaaParser::Student.new(id, name, program)
 
       get_program_structure
     end
