@@ -11,6 +11,7 @@ require 'sigaa_parser/course_parser'
 require 'sigaa_parser/models/course'
 require 'sigaa_parser/models/student'
 require 'sigaa_parser/models/state_view_id'
+require 'sigaa_parser/models/prerequisites'
 
 require 'mechanize'
 require 'pry'

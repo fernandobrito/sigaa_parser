@@ -57,13 +57,23 @@ module SigaaParser
       table = page.search('//caption[contains(., "Expressões específicas de currículo cadastradas para este componente")]/parent::*')
 
       table.search('tr').to_a.from(1).each do |row|
-        program_code = row.search('td')[0].text.split('-').last.remove_tabulation
-        prerequisites = row.search('td')[2].text.remove_tabulation
+        program_name = row.search('td')[0].text.remove_tabulation
+        prerequisite_codes = parse_prerequisites(row.search('td')[2].text.remove_tabulation)
 
-        course.add_prerequisite(Course.new(prerequisites))
+        prerequisites = SigaaParser::Prerequisites.new(program_name)
+
+        prerequisite_codes.each do |prerequisite_code|
+          prerequisites.add_course(Course.new(prerequisite_code))
+        end
+
+        course.add_prerequisites(prerequisites)
       end
 
       course
+    end
+
+    def parse_prerequisites(string)
+      string.scan(/\d+/)
     end
   end
 end

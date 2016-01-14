@@ -18,8 +18,12 @@ module SigaaParser
       @category = category if category
     end
 
-    def add_prerequisite(course)
-      @prerequisites << course
+    def add_prerequisites(prerequisites)
+      @prerequisites << prerequisites
+    end
+
+    def prerequisites_for(code)
+      @prerequisites.select{ |pre| pre.program.include?(code) }
     end
 
     def ==(course)
@@ -27,7 +31,8 @@ module SigaaParser
     end
 
     def to_s
-      "#{@code} - #{@name}"
+      # "#{@code} - #{@name}"
+      "#{code}"
     end
   end
 end

@@ -23,11 +23,13 @@ course_parser = SigaaParser::CourseParser.new
 parser.state_id.reset
 
 mandatory_courses.each do |course|
-  puts "=> #{course}"
 
   begin
-    puts course_parser.parse(course_parser.retrieve(parser, course.code))
+    course = course_parser.parse(course_parser.retrieve(parser, course.code))
+    puts "#{course}: #{course.prerequisites_for('162006').join(', ')}"
   rescue => e
+    puts e
+    puts e.backtrace
     parser.state_id.reset
     sleep(2)
   end
