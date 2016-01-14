@@ -1,8 +1,12 @@
-require File.join(File.dirname(__FILE__), 'helpers', 'open_in_browser')
+require 'helpers/open_in_browser'
+require 'helpers/string_helpers'
 
-require File.join(File.dirname(__FILE__), 'sigaa_parser', 'version')
-require File.join(File.dirname(__FILE__), 'sigaa_parser', 'parser')
-require File.join(File.dirname(__FILE__), 'sigaa_parser', 'curriculum_parser')
+require 'sigaa_parser/version'
+require 'sigaa_parser/parser'
+require 'sigaa_parser/curriculum_parser'
+
+require 'sigaa_parser/models/course'
+require 'sigaa_parser/models/student'
 
 require 'mechanize'
 require 'pry'
