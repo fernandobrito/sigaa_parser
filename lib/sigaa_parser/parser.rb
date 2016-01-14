@@ -2,10 +2,11 @@ module SigaaParser
   class AuthenticationFailed < Exception ; end
 
   class Parser
-    attr_accessor :agent
+    attr_accessor :agent, :state_id
 
     def initialize
       @agent = Mechanize.new
+      @state_id = SigaaParser::StateViewId.new(self)
     end
 
     def authenticate(login, password)

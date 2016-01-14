@@ -25,5 +25,9 @@ module SigaaParser
     def ==(course)
       (course.class == self.class && self.code == course.code)
     end
+
+    def to_s
+      "#{@code} - #{@name}"
+    end
   end
 end
