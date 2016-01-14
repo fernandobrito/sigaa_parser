@@ -1,31 +1,38 @@
-require 'active_support/core_ext/array'
-
 module SigaaParser
   class CurriculumParser
-    # Name of the program
-    def initialize(name = nil)
+    include SigaaParser::Cacheable
+
+    def initialize
     end
 
-    def retrieve(agent)
+    def cache_name(code)
+      "program-#{code}"
+    end
+
+    def retrieve(agent, code)
+      cache_name = cache_name(code)
+      return agent.get('file:///' + retrieve_cache_path(cache_name)) if has_cached?(cache_name)
+
       headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }
 
       url = 'https://sigaa.ufpb.br/sigaa/portais/discente/discente.jsf'
       payload = 'menu:form_menu_discente=menu:form_menu_discente&id=149639&jscook_action=menu_form_menu_discente_j_id_jsp_1030614539_62_menu:A]#{ curriculo.popularBuscaGeral }&javax.faces.ViewState=j_id2'
-
       page = agent.post(url, payload, headers)
-      page.open_in_browser
+
+      if page.search('//h2[contains(., "Consulta de Estrutura Curricular de Graduação")]').empty?
+        raise 'Something went wrong!'
+      end
 
       url = 'https://sigaa.ufpb.br/sigaa/geral/estrutura_curricular/busca_geral.jsf'
       payload = 'busca=busca&busca:checkCurso=on&busca:curso=1626669&busca:matriz=0&busca:codigo=&busca:j_id_jsp_648669378_450=Buscar&javax.faces.ViewState=j_id3'
-
       page = agent.post(url, payload, headers)
-      page.open_in_browser
+
 
       url = 'https://sigaa.ufpb.br/sigaa/graduacao/curriculo/lista.jsf'
       payload = 'resultado=resultado&javax.faces.ViewState=j_id4&resultado%3Arelatorio=resultado%3Arelatorio&id=940'
-
       page = agent.post(url, payload, headers)
-      page.open_in_browser
+
+      store_cache(cache_name, page.content)
 
       page
     end

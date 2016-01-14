@@ -23,7 +23,7 @@ describe SigaaParser::CurriculumParser do
         parser = SigaaParser::Parser.new
         parser.authenticate(login, password)
 
-        SigaaParser::CurriculumParser.new.retrieve(parser.agent)
+        SigaaParser::CurriculumParser.new.retrieve(parser.agent, '162006')
       end
 
       let(:course) { SigaaParser::Course.new('1101171', 'FISICA APLICADA A COMPUTACAO I', '1') }

@@ -6,7 +6,7 @@ describe SigaaParser::CourseParser do
         agent.get('file:///' + File.join(HTML_DIR, 'lp2-course.html'))
       end
 
-      it 'should find one of the courses' do
+      it 'should find the prerequisites' do
         expect(subject.parse(page).prerequisites.size).to be(5)
       end
     end
@@ -24,7 +24,7 @@ describe SigaaParser::CourseParser do
         SigaaParser::CourseParser.new.retrieve(parser.agent, '1107148')
       end
 
-      it 'should find one of the courses' do
+      it 'should find the prerequisites' do
         expect(subject.parse(page).prerequisites.size).to be(5)
       end
     end
