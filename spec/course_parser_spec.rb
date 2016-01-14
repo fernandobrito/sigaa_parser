@@ -1,5 +1,3 @@
-HTML_DIR = File.join(File.dirname(__FILE__), 'html')
-
 describe SigaaParser::CourseParser do
   describe '#parse' do
     context 'when parsing a (cached) page' do
