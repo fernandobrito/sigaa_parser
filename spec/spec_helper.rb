@@ -21,6 +21,9 @@ require 'rubygems'
 
 require 'sigaa_parser'
 
+CONFIG_FILE = File.join(File.dirname(__FILE__), '..', 'configuration.yaml')
+HTML_DIR = File.join(File.dirname(__FILE__), 'html')
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

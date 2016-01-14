@@ -1,7 +1,5 @@
 require 'yaml'
 
-CONFIG_FILE = File.join(File.dirname(__FILE__), '..', 'configuration.yaml')
-
 describe SigaaParser::Parser do
   let(:student) {
     SigaaParser::Student.new('11111309', 'FERNANDO SANTOS DE MATTOS BRITO',
