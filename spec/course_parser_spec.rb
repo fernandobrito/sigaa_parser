@@ -16,7 +16,7 @@ describe SigaaParser::CourseParser do
         parser = SigaaParser::Parser.new
         parser.authenticate!
 
-        SigaaParser::CourseParser.new.retrieve(parser.agent, '1107148')
+        SigaaParser::CourseParser.new.retrieve(parser, '1107148')
       end
 
       it 'should find the prerequisites' do

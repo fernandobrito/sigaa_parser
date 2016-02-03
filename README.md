@@ -25,7 +25,7 @@ the `cache` folder.
 
 SIGAA is developed using JSF. In order for our parser to work, we need to keep track
 of the `javax.faces.ViewState ID`, which is an integer returned on every response. This
-number must be incremented and sent back on every request.
+number must sent back on every request.
 
 ## Installation
 

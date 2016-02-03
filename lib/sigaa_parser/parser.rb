@@ -2,7 +2,10 @@ module SigaaParser
   class AuthenticationFailed < Exception ; end
 
   class Parser
-    attr_accessor :agent, :state_id
+    attr_accessor :agent
+
+    # @return [SigaaParser::StateViewId] the associated StateViewID
+    attr_accessor :state_id
 
     def initialize
       @agent = Mechanize.new
@@ -18,8 +21,6 @@ module SigaaParser
 
       # Parse student data
       return parse_student_data(page)
-
-      get_program_structure
     end
 
     def fill_and_submit_login_form(login, password)
@@ -34,7 +35,7 @@ module SigaaParser
 
       # Check if login worked
       if page.search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
-        raise SigaaParser::AuthenticationFailed.new
+        raise SigaaParser::AuthenticationFailed.new('Authentication failed. Please check your username and password.')
       end
     end
 

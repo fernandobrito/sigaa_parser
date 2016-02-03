@@ -1,5 +1,6 @@
 require_relative 'helpers/open_in_browser'
 require_relative 'helpers/string_helpers'
+require_relative 'helpers/try_rescue'
 
 require_relative 'sigaa_parser/cacheable'
 
