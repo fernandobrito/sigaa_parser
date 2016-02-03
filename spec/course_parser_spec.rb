@@ -13,13 +13,8 @@ describe SigaaParser::CourseParser do
 
     context 'when parsing a (live) page' do
       let(:page) do
-        config = YAML.load_file(CONFIG_FILE)
-
-        login = config['credentials']['login']
-        password = config['credentials']['password']
-
         parser = SigaaParser::Parser.new
-        parser.authenticate(login, password)
+        parser.authenticate!
 
         SigaaParser::CourseParser.new.retrieve(parser.agent, '1107148')
       end

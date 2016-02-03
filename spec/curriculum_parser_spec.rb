@@ -15,13 +15,8 @@ describe SigaaParser::CurriculumParser do
 
     context 'when parsing a (live) page' do
       let(:page) do
-        config = YAML.load_file(CONFIG_FILE)
-
-        login = config['credentials']['login']
-        password = config['credentials']['password']
-
         parser = SigaaParser::Parser.new
-        parser.authenticate(login, password)
+        parser.authenticate!
 
         SigaaParser::CurriculumParser.new.retrieve(parser.agent, '162006')
       end

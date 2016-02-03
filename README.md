@@ -47,7 +47,11 @@ Or install it yourself as:
 
 Check the `examples` folder.
 
+Update `.env` file with your UFPB SIGAA username and password.
+
 ## Development
+
+To run all the tests: `$ rspec --format documentation`
 
 ## To-do
 

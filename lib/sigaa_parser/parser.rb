@@ -9,9 +9,9 @@ module SigaaParser
       @state_id = SigaaParser::StateViewId.new(self)
     end
 
-    def authenticate(login, password)
+    def authenticate!
       # Login
-      fill_and_submit_login_form(login, password)
+      fill_and_submit_login_form(ENV['SIGAA_USERNAME'], ENV['SIGAA_PASSWORD'])
 
       # Choose enrollment (optional?)
       page = @agent.get('https://sigaa.ufpb.br/sigaa/escolhaVinculo.do?dispatch=escolher&vinculo=1')

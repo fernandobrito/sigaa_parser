@@ -1,10 +1,10 @@
 # Download all courses from CIÊNCIA DA COMPUTAÇÃO (162006)
 
-require File.join(File.dirname(__FILE__), '..', 'lib', 'sigaa_parser')
+require_relative '../lib/sigaa_parser'
 
 # Authenticating
 parser = SigaaParser::Parser.new
-parser.authenticate('', '')
+parser.authenticate!
 
 # Getting courses
 curriculum_parser = SigaaParser::CurriculumParser.new

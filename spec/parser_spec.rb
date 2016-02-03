@@ -9,23 +9,19 @@ describe SigaaParser::Parser do
   describe '#authenticate' do
     context 'when authenticating' do
       let(:subject) do
-        config = YAML.load_file(CONFIG_FILE)
-
-        @login = config['credentials']['login']
-        @password = config['credentials']['password']
-
         SigaaParser::Parser.new
       end
 
       context 'with correct data' do
         it 'should find student information' do
-          expect(subject.authenticate(@login, @password)).to be == student
+          expect(subject.authenticate!).to be == student
         end
       end
 
       context 'with incorrect data' do
         it 'should raise an error' do
-          expect { subject.authenticate('a', 'b') }.to raise_error(SigaaParser::AuthenticationFailed)
+          ENV['SIGAA_PASSWORD'] = 'wrong-password'
+          expect { subject.authenticate!}.to raise_error(SigaaParser::AuthenticationFailed)
         end
       end
     end

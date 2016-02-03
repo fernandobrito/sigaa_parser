@@ -21,7 +21,6 @@ require 'rubygems'
 
 require 'sigaa_parser'
 
-CONFIG_FILE = File.join(File.dirname(__FILE__), '..', 'configuration.yaml')
 HTML_DIR = File.join(File.dirname(__FILE__), 'html')
 
 RSpec.configure do |config|
