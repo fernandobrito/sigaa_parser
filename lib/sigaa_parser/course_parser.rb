@@ -1,54 +1,53 @@
 module SigaaParser
   class CourseParser
     include SigaaParser::Cacheable
+    include SigaaParser::MenuNavigator
 
-    attr_reader :view_state_id
-
-    def initialize
+    def initialize(browser)
+      @browser = browser
     end
 
     def cache_name(code)
       "course-#{code}"
     end
 
-    def retrieve(parser, code)
-      agent = parser.agent
-
-      cache_name = cache_name(code)
-      return agent.get('file:///' + retrieve_cache_path(cache_name)) if has_cached?(cache_name)
-
-      headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }
-
-      sleep(1)
-
-      url = 'https://sigaa.ufpb.br/sigaa/portais/discente/discente.jsf'
-      payload = "menu:form_menu_discente=menu:form_menu_discente&id=149639&jscook_action=menu_form_menu_discente_j_id_jsp_1030614539_62_menu:A]\#{ componenteCurricular.popularBuscaDiscente }&javax.faces.ViewState=j_id#{parser.state_id.get_and_increment}"
-      page = agent.post(url, payload, headers)
-
-      if page.search('//h2[contains(., "Consulta Geral de Componentes Curriculares")]').empty?
-        raise 'Something went wrong!'
-      end
-
-      sleep(1)
-
-      url = 'https://sigaa.ufpb.br/sigaa/geral/componente_curricular/busca_geral.jsf'
-      payload = "formBusca=formBusca&formBusca:checkNivel=on&formBusca:j_id_jsp_34245291_634=G&formBusca:checkCodigo=on&formBusca:j_id_jsp_34245291_638=#{code}&formBusca:j_id_jsp_34245291_640=&formBusca:form:idPreRequisito=&formBusca:form:nomeDisciplinaPreRequisito=&formBusca:form2:idCoRequisito=&formBusca:form2:nomeDisciplinaCoRequisito=&formBusca:form3:idEquivalencia=&formBusca:form3:nomeDisciplinaEquivalencia=&formBusca:Data_Inicial=&formBusca:dataFim=&formBusca:unidades=0&formBusca:tipos=0&formBusca:btnBuscar=Buscar&javax.faces.ViewState=j_id#{parser.state_id.get_and_increment}"
-      page = agent.post(url, payload, headers)
-
-      internal_id = page.search('//a[@title="Visualizar Componente Curricular"]').attr('onclick').text[/id,([0-9]*)/, 1]
-
-      sleep(1)
-
-      url = 'https://sigaa.ufpb.br/sigaa/geral/componente_curricular/busca_geral.jsf'
-      payload = "j_id_jsp_34245291_671:j_id_jsp_34245291_672=j_id_jsp_34245291_671:j_id_jsp_34245291_672&id=#{internal_id}&j_id_jsp_34245291_671=j_id_jsp_34245291_671&javax.faces.ViewState=j_id#{parser.state_id.get}"
-      page = agent.post(url, payload, headers)
-
-      store_cache(cache_name, page.content)
-
-      page
+    def retrieve_and_parse(code)
+      parse(retrieve(code))
     end
 
-    def parse(page)
+    # @return [String] HTML content of the page
+    def retrieve(code)
+      # Look for cached version
+      cache_name = cache_name(code)
+      return File.read(retrieve_cache_path(cache_name)) if has_cached?(cache_name)
+
+      # Go to main page if this page has no menu
+      go_to_main_page unless page_has_menu?
+
+      # Go to the page by accessing the menu
+      @browser.span(text: 'Ensino').hover
+      @browser.td(text: 'Consultar Componente Curricular').click
+
+      # Finds label, go to <td>, go to <tr>, find <td>s, get last, find inputs, get last
+      # Fill the course code on the form
+      @browser.labels(for: 'checkCodigo').first.parent.parent.tds.last.text_fields.last.set code
+
+      # Submit the form
+      @browser.button(text: 'Buscar').click
+
+      # Click on the first result on the table
+      # 2nd element because 1st one is on the legend
+      @browser.images(src: "/sigaa/img/view.gif")[1].click
+
+      # Store on cache
+      store_cache(cache_name, @browser.html)
+
+      @browser.html
+    end
+
+    def parse(html_string)
+      page = Nokogiri::HTML(html_string)
+
       code = page.search("//th[contains(., 'Código')]/following-sibling::td[1]").text.remove_tabulation
       name = page.search("//th[contains(., 'Nome')]/following-sibling::td[1]").text.remove_tabulation
 

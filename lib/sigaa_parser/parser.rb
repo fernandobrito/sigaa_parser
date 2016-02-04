@@ -2,14 +2,10 @@ module SigaaParser
   class AuthenticationFailed < Exception ; end
 
   class Parser
-    attr_accessor :agent
-
-    # @return [SigaaParser::StateViewId] the associated StateViewID
-    attr_accessor :state_id
+    attr_accessor :browser
 
     def initialize
-      @agent = Mechanize.new
-      @state_id = SigaaParser::StateViewId.new(self)
+      @browser = Watir::Browser.new :phantomjs, args: '--ssl-protocol=any'
     end
 
     def authenticate!
@@ -17,29 +13,38 @@ module SigaaParser
       fill_and_submit_login_form(ENV['SIGAA_USERNAME'], ENV['SIGAA_PASSWORD'])
 
       # Choose enrollment (optional?)
-      page = @agent.get('https://sigaa.ufpb.br/sigaa/escolhaVinculo.do?dispatch=escolher&vinculo=1')
+      puts '=> Choosing enrollment'
+      @browser.goto('https://sigaa.ufpb.br/sigaa/escolhaVinculo.do?dispatch=escolher&vinculo=1')
 
       # Parse student data
-      return parse_student_data(page)
+      return parse_student_data(@browser.html)
     end
 
     def fill_and_submit_login_form(login, password)
+      raise 'Empty username or password' if login.nil? || password.nil?
+
       # Request page
-      page = @agent.get('https://sigaa.ufpb.br/sigaa/verTelaLogin.do')
+      puts '=> Logging in'
+      @browser.goto('https://sigaa.ufpb.br/sigaa/verTelaLogin.do')
 
       # Fill form
-      form = page.forms.first
-      form.field_with(name: 'user.login').value = login
-      form.field_with(name: 'user.senha').value = password
-      page = form.submit
+      @browser.text_field(:name => 'user.login').set login
+      @browser.text_field(:name => 'user.senha').set password
+
+      # Submit form
+      @browser.button(:text => 'Entrar').click
 
       # Check if login worked
-      if page.search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
+      if Nokogiri::HTML(@browser.html).search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
         raise SigaaParser::AuthenticationFailed.new('Authentication failed. Please check your username and password.')
       end
     end
 
-    def parse_student_data(page)
+    # Parse details from the student
+    # @return [Student]
+    def parse_student_data(html_string)
+      page = Nokogiri::HTML(html_string)
+
       id = page.search("//td[contains(., 'Matrícula')]/following-sibling::td[1]").text.remove_tabulation
       name = page.search('.nome').text.remove_tabulation
       program = page.search("//td[contains(., 'Curso:')]/following-sibling::td[1]").text.remove_tabulation

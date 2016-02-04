@@ -1,44 +1,51 @@
 module SigaaParser
   class CurriculumParser
     include SigaaParser::Cacheable
+    include SigaaParser::MenuNavigator
 
-    def initialize
+    def initialize(browser)
+      @browser = browser
     end
 
     def cache_name(code)
       "program-#{code}"
     end
 
-    def retrieve(parser, code)
-      agent = parser.agent
-
-      cache_name = cache_name(code)
-      return agent.get('file:///' + retrieve_cache_path(cache_name)) if has_cached?(cache_name)
-
-      headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }
-
-      url = 'https://sigaa.ufpb.br/sigaa/portais/discente/discente.jsf'
-      payload = "menu:form_menu_discente=menu:form_menu_discente&id=149639&jscook_action=menu_form_menu_discente_j_id_jsp_1030614539_62_menu:A]\#{ curriculo.popularBuscaGeral }&javax.faces.ViewState=j_id#{parser.state_id.get_and_increment}"
-      page = agent.post(url, payload, headers)
-
-      if page.search('//h2[contains(., "Consulta de Estrutura Curricular de Graduação")]').empty?
-        raise 'Something went wrong!'
-      end
-
-      url = 'https://sigaa.ufpb.br/sigaa/geral/estrutura_curricular/busca_geral.jsf'
-      payload = "busca=busca&busca:checkCurso=on&busca:curso=1626669&busca:matriz=0&busca:codigo=&busca:j_id_jsp_648669378_450=Buscar&javax.faces.ViewState=j_id#{parser.state_id.get_and_increment}"
-      page = agent.post(url, payload, headers)
-
-      url = 'https://sigaa.ufpb.br/sigaa/graduacao/curriculo/lista.jsf'
-      payload = "resultado=resultado&javax.faces.ViewState=j_id#{parser.state_id.get}&resultado%3Arelatorio=resultado%3Arelatorio&id=940"
-      page = agent.post(url, payload, headers)
-
-      store_cache(cache_name, page.content)
-
-      page
+    def retrieve_and_parse(code)
+      parse(retrieve(code))
     end
 
-    def parse(page)
+    def retrieve(code)
+      # Look for cached version
+      cache_name = cache_name(code)
+      return File.read(retrieve_cache_path(cache_name)) if has_cached?(cache_name)
+
+      # Go to main page if this page has no menu
+      go_to_main_page unless page_has_menu?
+
+      # Go to the page by accessing the menu
+      @browser.span(text: 'Ensino').hover
+      @browser.td(text: 'Consultar Estrutura Curricular').click
+
+      # Fill the program code on the form
+      @browser.select_list(name: 'busca:curso').select_value code
+
+      # Submit the form
+      @browser.button(text: 'Buscar').click
+
+      # Click on the first result on the table
+      # 2nd element because 1st one is on the legend
+      @browser.images(src: "/sigaa/img/report.png")[1].click
+
+      # Store on cache
+      store_cache(cache_name, @browser.html)
+
+      @browser.html
+    end
+
+    def parse(html_string)
+      page = Nokogiri::HTML(html_string)
+
       courses = []
 
       code = page.search("//th[contains(., 'Código')]/following-sibling::td[1]").text.remove_tabulation
