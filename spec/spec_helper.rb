@@ -19,6 +19,12 @@ require 'rubygems'
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'simplecov'
+
+SimpleCov.start do
+  add_filter '/spec/'
+end
+
 require 'sigaa_parser'
 
 HTML_DIR = File.join(File.dirname(__FILE__), 'html')
