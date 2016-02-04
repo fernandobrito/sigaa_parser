@@ -21,12 +21,6 @@ names that make this bachelor program, including its dependencies (prerequisites
 To make development faster, course and bachelor program pages are cached under
 the `cache` folder.
 
-### Keeps track of javax.faces.ViewState
-
-SIGAA is developed using JSF. In order for our parser to work, we need to keep track
-of the `javax.faces.ViewState ID`, which is an integer returned on every response. This
-number must sent back on every request.
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -56,7 +50,20 @@ To run all the tests: `$ rspec --format documentation`
 ## To-do
 
 * Parse program by name (instead of ID);
-* Parse grades and completed courses by student (either by login and password, or transcript PDF file).
+* Parse grades and completed courses by student (either by login and password, or transcript PDF file);
+* Add validations after every request to see if we are on right page.
 
 ## Contributing
 
+## History
+
+At first we tried using `Mechanize` gem to automate the HTTP requests. However, it does not support
+JavaScript. As SIGAA is developed using JSF, the requests to work, we had to keep track of `javax.faces.ViewState ID`, 
+which is an integer returned on every response. This number had to be sent back on every request, and sometimes
+the server would simply ignore my number and reset my session.
+
+Afterwards we tried using `capybara` with `poltergeist`, but as `capybara` is mainly designed to be
+used on acceptance tests, it was hard to make use of the lib outside that context. 
+
+Finally, we moved to `Watir` with `PhantomJS` driver. Slow, but works fine and code is much more
+readable.
