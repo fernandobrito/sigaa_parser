@@ -21,7 +21,7 @@ describe SigaaParser::Parser do
       context 'with incorrect data' do
         it 'should raise an error' do
           ENV['SIGAA_PASSWORD'] = 'wrong-password'
-          expect { subject.authenticate!}.to raise_error(SigaaParser::AuthenticationFailed)
+          expect { subject.authenticate! }.to raise_error(SigaaParser::AuthenticationFailed)
         end
       end
     end

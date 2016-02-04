@@ -3,7 +3,7 @@ module SigaaParser
     include SigaaParser::Cacheable
     include SigaaParser::MenuNavigator
 
-    def initialize(browser)
+    def initialize(browser = nil)
       @browser = browser
     end
 

@@ -1,13 +1,12 @@
 describe SigaaParser::CourseParser do
   describe '#parse' do
     context 'when parsing a (cached) page' do
-      let(:page) do
-        agent = Mechanize.new
-        agent.get('file:///' + File.join(HTML_DIR, 'lp2-course.html'))
+      let(:html_code) do
+        File.read(File.join(HTML_DIR, 'lp2-course.html'))
       end
 
       it 'should find the prerequisites' do
-        expect(subject.parse(page).prerequisites.size).to be(5)
+        expect(subject.parse(html_code).prerequisites.size).to be(5)
       end
     end
 
@@ -16,7 +15,7 @@ describe SigaaParser::CourseParser do
         parser = SigaaParser::Parser.new
         parser.authenticate!
 
-        SigaaParser::CourseParser.new.retrieve(parser, '1107148')
+        SigaaParser::CourseParser.new(parser.browser).retrieve('1107148')
       end
 
       it 'should find the prerequisites' do

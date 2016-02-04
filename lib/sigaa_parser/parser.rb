@@ -45,7 +45,9 @@ module SigaaParser
     def parse_student_data(html_string)
       page = Nokogiri::HTML(html_string)
 
-      id = page.search("//td[contains(., 'Matrícula')]/following-sibling::td[1]").text.remove_tabulation
+      id = page.search('#agenda-docente')
+               .search(".//td[contains(., 'Matrícula')]/following-sibling::td[1]")
+               .text.remove_tabulation
       name = page.search('.nome').text.remove_tabulation
       program = page.search("//td[contains(., 'Curso:')]/following-sibling::td[1]").text.remove_tabulation
 
