@@ -46,8 +46,6 @@ module SigaaParser
     def parse(html_string)
       page = Nokogiri::HTML(html_string)
 
-      courses = []
-
       code = page.search("//th[contains(., 'Código')]/following-sibling::td[1]").text.remove_tabulation
       name = page.search("//th[contains(., 'Matriz Curricular')]/following-sibling::td[1]").text.remove_tabulation
 
@@ -59,6 +57,9 @@ module SigaaParser
       # - 1 for 0th semester
       # - 1 because everything is inside one big td
       semesters = table.search("//td[contains(., 'º Semestre')]").size - 2
+
+      # Create object
+      curriculum = SigaaParser::Curriculum.new(code, name, semesters)
 
       # The HTML is not structure at all. Very ugly parsing:
       # Split into groups
@@ -78,11 +79,11 @@ module SigaaParser
 
           course = SigaaParser::Course.new(code, name, semester, workload, type, category)
 
-          courses << course
+          curriculum.courses << course
         end
       end
 
-      courses
+      curriculum
     end
   end
 end

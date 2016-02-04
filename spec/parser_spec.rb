@@ -1,10 +1,10 @@
 require 'yaml'
 
 describe SigaaParser::Parser do
-  let(:student) {
+  let(:student) do
     SigaaParser::Student.new('11111309', 'FERNANDO SANTOS DE MATTOS BRITO',
                              'CIÊNCIAS DA COMPUTAÇÃO (BACHARELADO)/CI - João Pessoa - MT')
-  }
+  end
 
   describe '#authenticate' do
     context 'when authenticating' do
