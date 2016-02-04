@@ -4,7 +4,10 @@ module SigaaParser
     attr_reader :code
 
     # Optional fields
-    attr_reader :name, :semester, :workload, :type, :category, :prerequisites
+    attr_reader :name, :semester, :workload, :type, :category
+
+    # See Prerequesites model
+    attr_accessor :prerequisites
 
     def initialize(code, name = nil, semester = nil, workload = nil, type = nil, category = nil)
       @code = code
@@ -23,7 +26,7 @@ module SigaaParser
     end
 
     def prerequisites_for(code)
-      @prerequisites.select{ |pre| pre.program.include?(code) }
+      @prerequisites.select{ |pre| pre.curriculum.include?(code) }
     end
 
     def ==(course)

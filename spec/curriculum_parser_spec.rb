@@ -9,6 +9,10 @@ shared_examples 'parses curriculum' do
     expect(subject.name).to include('CIÊNCIAS DA COMPUTAÇÃO')
   end
 
+  it 'faculty is parsed correctly' do
+    expect(subject.faculty).to include('CENTRO DE INFORMÁTICA')
+  end
+
   it 'courses are parsed' do
     expect(subject.courses).to include(course)
   end

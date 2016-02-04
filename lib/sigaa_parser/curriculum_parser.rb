@@ -48,6 +48,7 @@ module SigaaParser
 
       code = page.search("//th[contains(., 'Código')]/following-sibling::td[1]").text.remove_tabulation
       name = page.search("//th[contains(., 'Matriz Curricular')]/following-sibling::td[1]").text.remove_tabulation
+      faculty = page.search("//th[contains(., 'Unidade de Vinculação')]/following-sibling::td[1]").text.remove_tabulation
 
       # This is the third table
       # STRANGE: cached page works with first line. Live page with second!
@@ -59,7 +60,7 @@ module SigaaParser
       semesters = table.search("//td[contains(., 'º Semestre')]").size - 2
 
       # Create object
-      curriculum = SigaaParser::Curriculum.new(code, name, semesters)
+      curriculum = SigaaParser::Curriculum.new(code, name, semesters, faculty)
 
       # The HTML is not structure at all. Very ugly parsing:
       # Split into groups

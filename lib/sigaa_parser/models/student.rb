@@ -1,16 +1,16 @@
 module SigaaParser
   class Student
-    attr_reader :id, :name, :program
+    attr_reader :id, :name, :curriculum
 
-    def initialize(id, name, program)
+    def initialize(id, name, curriculum)
       @id = id
       @name = name
-      @program = program
+      @curriculum = curriculum
     end
 
     def ==(student)
       (student.class == self.class && self.id == student.id &&
-          self.name == student.name && self.program == student.program)
+          self.name == student.name && self.curriculum == student.curriculum)
     end
   end
 end
