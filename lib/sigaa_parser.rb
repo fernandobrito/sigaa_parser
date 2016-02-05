@@ -9,7 +9,6 @@ require 'active_support/core_ext/array'
 Dotenv.load
 
 # Helpers
-require_relative 'helpers/open_in_browser'
 require_relative 'helpers/string_helpers'
 require_relative 'helpers/try_rescue'
 
