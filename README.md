@@ -2,7 +2,9 @@
 
 **Pet-project. Use at your own risk. Low test coverage ratio.**
 
-Gem to scrap and parse the academic web system (SIGAA) used on my home university (UFPB).
+Gem to scrap and parse the academic web system (SIGAA) used at UFPB.
+
+Powers the API: https://github.com/fernandobrito/ufpb_sigaa_api
 
 ## Features
 
