@@ -29,6 +29,14 @@ module SigaaParser
       @prerequisites.select{ |pre| pre.curriculum.include?(code) }
     end
 
+    def prerequisites_courses
+      if @prerequisites && @prerequisites.size > 0
+        @prerequisites.first.courses
+      else
+        []
+      end
+    end
+
     def ==(course)
       (course.class == self.class && self.code == course.code)
     end
@@ -36,6 +44,11 @@ module SigaaParser
     def to_s
       # "#{@code} - #{@name}"
       "#{code}"
+    end
+
+    def to_hash
+      { code: @code, name: @name, category: @category, semester: @semester.to_i,
+        workload: @workload, type: @type, prerequisites: prerequisites_courses }
     end
   end
 end

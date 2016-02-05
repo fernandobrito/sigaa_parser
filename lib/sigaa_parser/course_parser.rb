@@ -3,8 +3,8 @@ module SigaaParser
     include SigaaParser::Cacheable
     include SigaaParser::MenuNavigator
 
-    def initialize(browser = nil)
-      @browser = browser
+    def initialize(scraper = nil)
+      @scraper = scraper
     end
 
     def cache_name(code)
@@ -21,28 +21,30 @@ module SigaaParser
       cache_name = cache_name(code)
       return File.read(retrieve_cache_path(cache_name)) if has_cached?(cache_name)
 
+      browser = @scraper.browser
+
       # Go to main page if this page has no menu
       go_to_main_page unless page_has_menu?
 
       # Go to the page by accessing the menu
-      @browser.span(text: 'Ensino').hover
-      @browser.td(text: 'Consultar Componente Curricular').click
+      browser.span(text: 'Ensino').hover
+      browser.td(text: 'Consultar Componente Curricular').click
 
       # Finds label, go to <td>, go to <tr>, find <td>s, get last, find inputs, get last
       # Fill the course code on the form
-      @browser.labels(for: 'checkCodigo').first.parent.parent.tds.last.text_fields.last.set code
+      browser.labels(for: 'checkCodigo').first.parent.parent.tds.last.text_fields.last.set code
 
       # Submit the form
-      @browser.button(text: 'Buscar').click
+      browser.button(text: 'Buscar').click
 
       # Click on the first result on the table
       # 2nd element because 1st one is on the legend
-      @browser.images(src: "/sigaa/img/view.gif")[1].click
+      browser.images(src: "/sigaa/img/view.gif")[1].click
 
       # Store on cache
-      store_cache(cache_name, @browser.html)
+      store_cache(cache_name, browser.html)
 
-      @browser.html
+      browser.html
     end
 
     def parse(html_string)

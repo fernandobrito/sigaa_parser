@@ -29,10 +29,8 @@ describe SigaaParser::CurriculumParser do
 
     context 'when parsing a (live) page' do
       before(:all) do
-        parser = SigaaParser::Parser.new
-        parser.authenticate!
-
-        @subject = SigaaParser::CurriculumParser.new(parser.browser).retrieve_and_parse('1626669')
+        parser = SigaaParser::Scraper.new
+        @subject = SigaaParser::CurriculumParser.new(parser).retrieve_and_parse('1626669')
       end
 
       subject { @subject }

@@ -3,7 +3,7 @@
 require_relative '../lib/sigaa_parser'
 
 # Authenticating
-parser = SigaaParser::Parser.new
+parser = SigaaParser::Scraper.new
 student = parser.authenticate!
 
 pp student

@@ -19,7 +19,7 @@ require_relative 'sigaa_parser/menu_navigator'
 
 # Classes
 require_relative 'sigaa_parser/version'
-require_relative 'sigaa_parser/parser'
+require_relative 'sigaa_parser/scraper'
 require_relative 'sigaa_parser/curriculum_parser'
 require_relative 'sigaa_parser/course_parser'
 

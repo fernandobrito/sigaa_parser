@@ -1,11 +1,18 @@
 module SigaaParser
   class AuthenticationFailed < Exception ; end
 
-  class Parser
-    attr_accessor :browser
-
+  class Scraper
     def initialize
       @browser = Watir::Browser.new :phantomjs, args: '--ssl-protocol=any'
+
+      @authenticated = false
+    end
+
+    # Return browser. If not authenticated yet, do it
+    def browser
+      authenticate! unless @authenticated
+      
+      @browser
     end
 
     def authenticate!
@@ -38,6 +45,8 @@ module SigaaParser
       if Nokogiri::HTML(@browser.html).search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
         raise SigaaParser::AuthenticationFailed.new('Authentication failed. Please check your username and password.')
       end
+
+      @authenticated = true
     end
 
     # Parse details from the student
