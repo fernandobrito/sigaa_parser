@@ -15,6 +15,8 @@ module SigaaParser
       parse(retrieve(code))
     end
 
+    # At the moment, the code we receive is the code from
+    # the select field on the page :) :)
     def retrieve(code)
       # Look for cached version
       cache_name = cache_name(code)

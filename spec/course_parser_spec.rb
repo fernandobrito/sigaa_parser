@@ -15,10 +15,8 @@ describe SigaaParser::CourseParser do
 
     context 'when parsing a (live) page' do
       before(:all) do
-        parser = SigaaParser::Parser.new
-        parser.authenticate!
-
-        @subject = SigaaParser::CourseParser.new(parser.browser).retrieve_and_parse('1107148')
+        parser = SigaaParser::Scraper.new
+        @subject = SigaaParser::CourseParser.new(parser).retrieve_and_parse('1107148')
       end
 
       subject { @subject }

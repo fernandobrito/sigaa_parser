@@ -1,4 +1,5 @@
 require 'watir-webdriver'
+require 'nokogiri'
 
 require 'pry'
 require 'dotenv'

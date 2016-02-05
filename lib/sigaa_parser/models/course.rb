@@ -31,7 +31,7 @@ module SigaaParser
 
     def prerequisites_courses
       if @prerequisites && @prerequisites.size > 0
-        @prerequisites.first.courses
+        @prerequisites.first.courses.map(&:code)
       else
         []
       end
