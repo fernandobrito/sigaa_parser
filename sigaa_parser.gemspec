@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Fernando Brito"]
   spec.email         = ["email@fernandobrito.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
+  spec.summary       = %q{Gem to scrap and parse the academic web system (SIGAA) used at UFPB.}
   spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/fernandobrito/sigaa_parser"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.

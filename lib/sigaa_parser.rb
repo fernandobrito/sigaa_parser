@@ -22,6 +22,7 @@ require_relative 'sigaa_parser/version'
 require_relative 'sigaa_parser/scraper'
 require_relative 'sigaa_parser/curriculum_parser'
 require_relative 'sigaa_parser/course_parser'
+require_relative 'sigaa_parser/transcript_parser'
 
 # Models
 require_relative 'sigaa_parser/models/course'

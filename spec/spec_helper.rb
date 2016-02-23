@@ -28,6 +28,7 @@ end
 require 'sigaa_parser'
 
 HTML_DIR = File.join(File.dirname(__FILE__), 'html')
+TRANSCRIPT_DIR = File.join(File.dirname(__FILE__), 'transcripts')
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
