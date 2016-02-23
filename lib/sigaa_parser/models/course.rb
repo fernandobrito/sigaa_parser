@@ -47,7 +47,7 @@ module SigaaParser
     end
 
     def to_hash
-      { code: @code, name: @name, category: @category, semester: @semester.to_i,
+      { id: @code, name: @name, category: @category, semester: @semester.to_i,
         workload: @workload, type: @type, prerequisites: prerequisites_courses }
     end
   end

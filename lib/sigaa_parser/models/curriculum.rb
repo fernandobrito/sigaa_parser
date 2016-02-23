@@ -14,7 +14,7 @@ module SigaaParser
     end
 
     def to_hash_short
-      { code: @code, name: @name, faculty: @faculty, semesters: @semesters.to_i }
+      { id: @code, name: @name, faculty: @faculty, semesters: @semesters.to_i }
     end
 
     def to_hash

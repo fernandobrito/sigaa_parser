@@ -33,7 +33,7 @@ def download_all
 
   # Converts to JSON and save file
   curricula_json = curricula.map(&:to_hash_short)
-  save_to_file('curricula.json', JSON.pretty_generate(curricula_json))
+  save_to_file('curricula.json', JSON.pretty_generate({ curricula: curricula_json }))
 
   # Download courses from each curriculum and dump to file
   process_curricula(scraper, curricula)
@@ -54,7 +54,7 @@ def process_curricula(scraper, curricula)
       course.prerequisites.keep_if { |p| p.curriculum == curriculum.code }
     end
 
-    save_to_file("#{curriculum.code}.json", JSON.pretty_generate(curriculum.to_hash))
+    save_to_file("#{curriculum.code}.json", JSON.pretty_generate({ curriculum: curriculum.to_hash }))
   end
 end
 
