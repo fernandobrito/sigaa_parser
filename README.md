@@ -18,7 +18,7 @@ If the student has more than one enrollment ID, the most recent one is selected.
 Given the ID of a bachelor program, it is possible to parse all mandatory course
 names that make this bachelor program, including its dependencies (prerequisites).
 
-### Parsers a Transcript of Record (PDF) (*under development*)
+### Parsers a Transcript of Record (PDF)
 
 Given the Transcript of Records PDF file generated from SIGAA, returns the
 parsed data (courses completed and grades).
