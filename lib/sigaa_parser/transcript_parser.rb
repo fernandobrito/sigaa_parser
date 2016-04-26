@@ -1,3 +1,5 @@
+require 'pdf-reader'
+
 module SigaaParser
 
   # Parses a PDF file generated from SIGAA with the Transcript of Records
@@ -9,35 +11,90 @@ module SigaaParser
     class InvalidFileFormat < Exception ; end
     class ParsingError < Exception ; end
 
+    VALID_EXTENSION = '.pdf'
+
     # @!attribute [r] courses
-    attr_reader :courses
+    attr_reader :course_results
 
     # @raise [InvalidFileExtension] file is not .pdf
     # @raise [InvalidFileFormat] file is not a transcript of records from SIGAA
     # @raise [ParsingError]
     def initialize(file)
+      @course_results = SigaaParser::CourseResults.new
       @file = file
-      @courses = []
 
       verify_file_extension
+      convert_to_rows
       verify_file_format
 
-      parse
+      parse_student
+      parse_results
     end
 
   protected
-    def parse
-      # do something with @file
+    def parse_student
+      student_name = @rows.find { |line| line.include?('Nome:') }.split(':').last.strip
+      student_id = @rows.find { |line| line.include?('Matrícula:') }.split('Matrícula:').last.strip
+      student_curriculum_code = @rows.find { |line| line.include?('Currículo:') }[/\d+/]
+
+      student = SigaaParser::Student.new(student_id, student_name, student_curriculum_code)
+
+      @course_results.student = student
+    end
+
+    def parse_results
+      grades_rows = @rows.select { |line| line.match /^\s*\d{4}\.(1|2)\s*\d*/ }
+
+      grades_rows.each do |row|
+        result = parse_row_result(row)
+
+        @course_results << result if result
+      end
+    end
+
+    def parse_row_result(row)
+      # Regular expression
+      regex = /(\d{4}\.(?:1|2))\s*(\d*)\s*(.*?)(?=\d\d)(\d*)\s*(\d*)\s*((?:--)|(?:\d*))\s*((?:\d{1,2}\.\d{1,2})|(?:--))\s*(.*)/
+
+      # Perform match
+      semester, course_code, course_name, workload, credits, group, grade, situation = row.match(regex).captures
+
+      # Process data
+      course_name.strip!
+      workload = workload.to_i
+      credits = credits.to_i
+
+      # For now, we only care about DISPENSADO, APROVADO, REPROVADO
+      return unless ['APROVADO', 'DISPENSADO', 'REPROVADO', 'REP. FALTA'].include?(situation)
+
+      # Create object and return
+      return SigaaParser::CourseResult.new(course_code, course_name, semester, workload, credits, group, grade, situation)
     end
 
     # @raise [InvalidFileExtension]
     def verify_file_extension
+      extension = File.extname(@file.path)
 
+      if extension.downcase != VALID_EXTENSION
+        raise InvalidFileExtension.new("Invalid file extension: #{extension}. Expecting .pdf")
+      end
     end
 
     # @raise [InvalidFileFormat]
     def verify_file_format
+     last_line = @rows.find { |row| row.include?('Para verificar a autenticidade') }
 
+     raise InvalidFileFormat.new('This file does not look like an Transcript of Records') if last_line.nil?
+    end
+
+    # Opens the @file with the PDF reader tool and stores rows in @rows
+    def convert_to_rows
+      pdf = PDF::Reader.new(@file)
+      @rows = []
+
+      pdf.pages.each do |page|
+        @rows += page.text.split("\n")
+      end
     end
   end
 end

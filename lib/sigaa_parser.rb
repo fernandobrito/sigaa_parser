@@ -29,5 +29,7 @@ require_relative 'sigaa_parser/models/course'
 require_relative 'sigaa_parser/models/student'
 require_relative 'sigaa_parser/models/prerequisites'
 require_relative 'sigaa_parser/models/curriculum'
+require_relative 'sigaa_parser/models/course_result'
+require_relative 'sigaa_parser/models/course_results'
 
 module SigaaParser ; end
