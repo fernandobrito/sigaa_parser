@@ -10,7 +10,6 @@ Gem::Specification.new do |spec|
   spec.email         = ["email@fernandobrito.com"]
 
   spec.summary       = %q{Gem to scrap and parse the academic web system (SIGAA) used at UFPB.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
   spec.homepage      = "https://github.com/fernandobrito/sigaa_parser"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
