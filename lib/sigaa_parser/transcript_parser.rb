@@ -63,10 +63,7 @@ module SigaaParser
       course_name.strip!
       workload = workload.to_i
       credits = credits.to_i
-
-      # For now, we only care about DISPENSADO, APROVADO, REPROVADO
-      return unless ['APROVADO', 'DISPENSADO', 'REPROVADO', 'REP. FALTA'].include?(situation)
-
+      
       # Create object and return
       return SigaaParser::CourseResult.new(course_code, course_name, semester, workload, credits, group, grade, situation)
     end

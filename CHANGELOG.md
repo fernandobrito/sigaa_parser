@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 Following conventions from: http://keepachangelog.com/.
 
+## [0.0.3] - 2016-04-30
+### Added
+- [TranscriptParser] Calculate averages with failed courses and without
+
 ## [0.0.2] - 2016-04-26
 ### Added
 - PDF parsing: TranscriptParser, CourseResult and CourseResults classes
