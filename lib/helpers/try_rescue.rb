@@ -1,4 +1,4 @@
-def try(times = 1, options = {}, &block)
+def try_times(times = 1, options = {}, &block)
   val = yield
 rescue (options[:on] || Exception) => e
   puts "************ Rescued something! #{e} (#{e.class})!"
