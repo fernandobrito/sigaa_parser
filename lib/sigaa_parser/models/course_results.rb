@@ -32,7 +32,7 @@ module SigaaParser
       total = courses.map { |course| course.grade.to_f * course.credits.to_i }.inject(:+)
       total_credits = courses.map { |course| course.credits.to_i }.inject(:+)
 
-      total / total_credits
+      (total / total_credits).round(2)
     end
   end
 end

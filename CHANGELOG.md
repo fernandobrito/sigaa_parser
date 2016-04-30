@@ -5,6 +5,7 @@ Following conventions from: http://keepachangelog.com/.
 ## [0.0.3] - 2016-04-30
 ### Added
 - [TranscriptParser] Calculate averages with failed courses and without
+- [TranscriptParser] Round averages up to 2 decimal places
 
 ## [0.0.2] - 2016-04-26
 ### Added
