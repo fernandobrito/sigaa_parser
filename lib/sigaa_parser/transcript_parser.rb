@@ -1,5 +1,4 @@
 require 'pdf-reader'
-require 'pry'
 
 module SigaaParser
 
