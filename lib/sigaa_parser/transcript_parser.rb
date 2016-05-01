@@ -1,4 +1,5 @@
 require 'pdf-reader'
+require 'pry'
 
 module SigaaParser
 
@@ -35,9 +36,11 @@ module SigaaParser
     def parse_student
       student_name = @rows.find { |line| line.include?('Nome:') }.split(':').last.strip
       student_id = @rows.find { |line| line.include?('Matrícula:') }.split('Matrícula:').last.strip
-      student_curriculum_code = @rows.find { |line| line.include?('Currículo:') }[/\d+/]
+      # student_curriculum_code = @rows.find { |line| line.include?('Currículo:') }[/\d+/]
+      student_program_name = @rows.find { |line| line.include?('Curso:') }
+          .split(':').last.split('-')[0..1].join('-').strip
 
-      student = SigaaParser::Student.new(student_id, student_name, student_curriculum_code)
+      student = SigaaParser::Student.new(student_id, student_name, student_program_name)
 
       @course_results.student = student
     end
