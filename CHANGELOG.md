@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 Following conventions from: http://keepachangelog.com/.
 
+## [0.0.4] - 2016-05-04
+### Added
+- [TranscriptParser] Parse credits progress (CourseResults::Progress)
+
 ## [0.0.3] - 2016-04-30
 ### Added
 - [TranscriptParser] Calculate averages with failed courses and without

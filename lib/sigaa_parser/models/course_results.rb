@@ -1,10 +1,11 @@
 module SigaaParser
   class CourseResults
-    attr_accessor :student
+    attr_accessor :student, :progress
     attr_reader :results
 
     def initialize
       @results = []
+      @progress = SigaaParser::CourseResults::Progress.new
     end
 
     def <<(result)
