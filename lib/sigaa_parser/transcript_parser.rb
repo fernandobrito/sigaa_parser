@@ -63,6 +63,7 @@ module SigaaParser
       @course_results.progress.compulsory.set(completed[1].to_i + completed[10].to_i, total[1].to_i + total[10].to_i)
       @course_results.progress.optional.set(completed[4].to_i, total[4].to_i)
       @course_results.progress.flexible.set(completed[7].to_i, total[7].to_i)
+      @course_results.progress.total.set(completed[13].to_i, total[13].to_i)
     end
 
     def parse_row_result(row)

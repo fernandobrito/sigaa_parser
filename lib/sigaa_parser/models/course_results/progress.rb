@@ -18,9 +18,10 @@ module SigaaParser
 
   class CourseResults::Progress
     # Compulsory is actually grouping "Básicas Profissionais" e "Complementares Obrigatórias"
-    attr_reader :compulsory, :flexible, :optional
+    attr_reader :total, :compulsory, :flexible, :optional
 
     def initialize
+      @total = CourseResults::ProgressItem.new
       @compulsory = CourseResults::ProgressItem.new
       @optional = CourseResults::ProgressItem.new
       @flexible = CourseResults::ProgressItem.new

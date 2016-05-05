@@ -33,6 +33,9 @@ describe SigaaParser::TranscriptParser do
 
   describe "#results" do
     it 'parses the data correctly' do
+      expect(subject.progress.total.completed).to be(115)
+      expect(subject.progress.total.total).to be(218)
+
       expect(subject.progress.compulsory.completed).to be(97)
       expect(subject.progress.compulsory.total).to be(190)
 
