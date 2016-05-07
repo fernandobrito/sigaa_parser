@@ -6,7 +6,7 @@ describe SigaaParser::Scraper do
                              'CIÊNCIAS DA COMPUTAÇÃO (BACHARELADO)/CI - João Pessoa - MT')
   end
 
-  describe '#authenticate' do
+  describe '#authenticate', headless: true do
     context 'when authenticating' do
       let(:subject) do
         SigaaParser::Scraper.new

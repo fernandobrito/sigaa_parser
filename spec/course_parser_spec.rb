@@ -13,7 +13,7 @@ describe SigaaParser::CourseParser do
       include_examples 'parses course'
     end
 
-    context 'when parsing a (live) page' do
+    context 'when parsing a (live) page', headless: true do
       before(:all) do
         parser = SigaaParser::Scraper.new
         @subject = SigaaParser::CourseParser.new(parser).retrieve_and_parse('1107148')

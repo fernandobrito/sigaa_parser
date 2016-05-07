@@ -27,7 +27,7 @@ describe SigaaParser::CurriculumParser do
       include_examples 'parses curriculum'
     end
 
-    context 'when parsing a (live) page' do
+    context 'when parsing a (live) page', headless: true do
       before(:all) do
         parser = SigaaParser::Scraper.new
         @subject = SigaaParser::CurriculumParser.new(parser).retrieve_and_parse('1626669')
