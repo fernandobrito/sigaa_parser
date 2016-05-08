@@ -23,6 +23,9 @@ require_relative 'sigaa_parser/curriculum_parser'
 require_relative 'sigaa_parser/course_parser'
 require_relative 'sigaa_parser/transcript_parser'
 
+# Browser
+require_relative 'sigaa_parser/browser/watir_adapter'
+
 # Models
 require_relative 'sigaa_parser/models/course'
 require_relative 'sigaa_parser/models/student'

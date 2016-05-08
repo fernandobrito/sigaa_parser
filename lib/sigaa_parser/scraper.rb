@@ -3,7 +3,8 @@ module SigaaParser
 
   class Scraper
     def initialize
-      @browser = Watir::Browser.new :phantomjs, args: '--ssl-protocol=any'
+      watir = Watir::Browser.new :phantomjs, args: '--ssl-protocol=any'
+      @browser = WatirAdapter.new(watir)
 
       @authenticated = false
     end
@@ -21,10 +22,10 @@ module SigaaParser
 
       # Choose enrollment (optional?)
       puts '=> Choosing enrollment'
-      @browser.goto('https://sigaa.ufpb.br/sigaa/escolhaVinculo.do?dispatch=escolher&vinculo=1')
+      @browser.visit('https://sigaa.ufpb.br/sigaa/escolhaVinculo.do?dispatch=escolher&vinculo=1')
 
       # Parse student data
-      return parse_student_data(@browser.html)
+      return parse_student_data(@browser.source_code)
     end
 
     def fill_and_submit_login_form(login, password)
@@ -32,7 +33,7 @@ module SigaaParser
 
       # Request page
       puts '=> Logging in'
-      @browser.goto('https://sigaa.ufpb.br/sigaa/verTelaLogin.do')
+      @browser.visit('https://sigaa.ufpb.br/sigaa/verTelaLogin.do')
 
       # Fill form
       @browser.text_field(:name => 'user.login').set login
@@ -42,7 +43,7 @@ module SigaaParser
       @browser.button(:text => 'Entrar').click
 
       # Check if login worked
-      if Nokogiri::HTML(@browser.html).search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
+      if Nokogiri::HTML(@browser.source_code).search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
         raise SigaaParser::AuthenticationFailed.new('Authentication failed. Please check your username and password.')
       end
 
