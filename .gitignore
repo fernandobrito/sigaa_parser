@@ -9,3 +9,5 @@
 /tmp/
 /cache/
 /.idea/
+
+.env
