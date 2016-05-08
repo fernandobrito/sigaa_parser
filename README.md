@@ -54,7 +54,9 @@ Update `.env` file with your UFPB SIGAA username and password.
 
 ## Development
 
-To run all the tests: `$ rspec --format documentation`
+To run all the tests: `$ rspec`
+
+To exclude tests that makes real requests to SIGAA (and require authentication): `$ rake specs:ci`. Travis-CI runs this test suit.
 
 ## To-do
 
