@@ -1,11 +1,6 @@
 require 'yaml'
 
 describe SigaaParser::Scraper do
-  let(:student) do
-    SigaaParser::Student.new('11111309', 'FERNANDO SANTOS DE MATTOS BRITO',
-                             'CIÊNCIAS DA COMPUTAÇÃO (BACHARELADO)/CI - João Pessoa - MT')
-  end
-
   describe '#authenticate', headless: true do
     context 'when authenticating' do
       let(:subject) do
@@ -14,7 +9,7 @@ describe SigaaParser::Scraper do
 
       context 'with correct data' do
         it 'should find student information' do
-          expect(subject.authenticate!).to be == student
+          expect(subject.authenticate!.name).not_to be_empty
         end
       end
 
