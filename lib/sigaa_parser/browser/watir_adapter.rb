@@ -42,4 +42,6 @@ class WatirAdapter
   def button(params)
     @watir.button(params)
   end
+
+  implements SigaaParser::BrowserAdapter
 end
