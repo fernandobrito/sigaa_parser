@@ -19,6 +19,11 @@ shared_examples 'parses curriculum' do
 end
 
 describe SigaaParser::CurriculumParser do
+  # Disable cache on unit tests
+  before(:all) do
+    SigaaParser::CurriculumParser.cache_enabled = false
+  end
+
   describe '#parse' do
     context 'when parsing a (cached) page' do
       let(:html_code) { File.read(File.join(HTML_DIR, 'cc-curriculum.html')) }

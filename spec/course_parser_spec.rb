@@ -5,6 +5,11 @@ shared_examples 'parses course' do
 end
 
 describe SigaaParser::CourseParser do
+  # Disable cache on unit tests
+  before(:all) do
+    SigaaParser::CourseParser.cache_enabled = false
+  end
+
   describe '#parse' do
     context 'when parsing a (cached) page' do
       let(:html_code) { File.read(File.join(HTML_DIR, 'lp2-course.html')) }

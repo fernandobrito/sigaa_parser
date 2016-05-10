@@ -17,9 +17,11 @@ module SigaaParser
 
     # @return [String] HTML content of the page
     def retrieve(code)
-      # Look for cached version
-      cache_name = cache_name(code)
-      return File.read(retrieve_cache_path(cache_name)) if has_cached?(cache_name)
+      if self.class.cache_enabled
+        # Look for cached version
+        cache_name = cache_name(code)
+        return File.read(retrieve_cache_path(cache_name)) if has_cached?(cache_name)
+      end
 
       browser = @scraper.browser
 
@@ -42,9 +44,9 @@ module SigaaParser
       browser.images(src: "/sigaa/img/view.gif")[1].click
 
       # Store on cache
-      store_cache(cache_name, browser.html)
+      store_cache(cache_name, browser.source_code) if self.class.cache_enabled
 
-      browser.html
+      browser.source_code
     end
 
     def parse(html_string)
