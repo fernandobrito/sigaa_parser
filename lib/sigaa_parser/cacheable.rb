@@ -3,6 +3,23 @@ module SigaaParser
     CACHE_FOLDER = File.join(File.dirname(__FILE__), '..', '..', 'cache')
     EXTENSION = '.html'
 
+    class << self
+      def included(base)
+        base.extend ClassMethods
+        base.cache_enabled = true
+      end
+    end
+
+    module ClassMethods
+      def cache_enabled
+        @cache_enabled
+      end
+
+      def cache_enabled=(flag)
+        @cache_enabled = flag
+      end
+    end
+
     def has_cached?(name)
       File.exists?(file_path(name))
     end
