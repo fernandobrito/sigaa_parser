@@ -24,6 +24,10 @@ describe SigaaParser::CurriculumParser do
     SigaaParser::CurriculumParser.cache_enabled = false
   end
 
+  after(:all) do
+    SigaaParser::CurriculumParser.cache_enabled = true
+  end
+
   describe '#parse' do
     context 'when parsing a (cached) page' do
       let(:html_code) { File.read(File.join(HTML_DIR, 'cc-curriculum.html')) }

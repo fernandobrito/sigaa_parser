@@ -1,8 +1,8 @@
 module SigaaParser
   class CourseResult < Course
 
-    # Here semester refeers to which semester this course result belongs to
-    # Normally, semester on Course refers to which semester this course belongs in the currilucum
+    # Here semester refers to which semester this course result belongs to
+    # Normally, semester on Course refers to which semester this course belongs in the curriculum
     attr_accessor :credits, :group, :grade, :situation
 
     def initialize(code, name, semester, workload, credits, group, grade, situation)
