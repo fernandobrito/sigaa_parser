@@ -9,4 +9,4 @@ git:
 before_install:
   gem update bundler
 
-script: bundle exec rake spec
+script: bundle exec rake spec:ci
