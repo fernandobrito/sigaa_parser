@@ -1,5 +1,6 @@
 require 'watir-webdriver'
 require 'nokogiri'
+require 'interface'
 
 require 'dotenv'
 require 'pp'
@@ -24,6 +25,7 @@ require_relative 'sigaa_parser/course_parser'
 require_relative 'sigaa_parser/transcript_parser'
 
 # Browser
+require_relative 'sigaa_parser/browser/browser_adapter'
 require_relative 'sigaa_parser/browser/watir_adapter'
 
 # Models

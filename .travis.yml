@@ -3,6 +3,10 @@ rvm:
   - 2.2.5
   - 2.3.1
 
+cache: 
+  - bundler
+  - apt
+
 git:
   depth: 3
 
