@@ -8,5 +8,6 @@ git:
 
 before_install:
   gem update bundler
+  apt-get install phantomjs
 
-script: bundle exec rake spec:ci
+script: bundle exec rake spec
