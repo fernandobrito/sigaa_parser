@@ -5,7 +5,7 @@ module SigaaParser
     end
 
     def go_to_main_page
-      @scraper.browser.goto('https://sigaa.ufpb.br/sigaa/portais/discente/discente.jsf')
+      @scraper.browser.visit('https://sigaa.ufpb.br/sigaa/portais/discente/discente.jsf')
     end
   end
 end
