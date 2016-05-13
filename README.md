@@ -2,7 +2,7 @@
 
 **Pet-project. Use at your own risk. Low test coverage ratio.**
 
-[![Build Status](https://travis-ci.org/fernandobrito/sigaa_parser.svg?branch=master)](https://travis-ci.org/fernandobrito/sigaa_parser) [![Coverage Status](https://coveralls.io/repos/github/fernandobrito/sigaa_parser/badge.svg?branch=master)](https://coveralls.io/github/fernandobrito/sigaa_parser?branch=master) [![Code Climate](https://codeclimate.com/github/fernandobrito/sigaa_parser/badges/gpa.svg)](https://codeclimate.com/github/fernandobrito/sigaa_parser) [![Issue Count](https://codeclimate.com/github/fernandobrito/sigaa_parser/badges/issue_count.svg)](https://codeclimate.com/github/fernandobrito/sigaa_parser)
+[![Build Status](https://travis-ci.org/fernandobrito/sigaa_parser.svg?branch=master)](https://travis-ci.org/fernandobrito/sigaa_parser) [![Coverage Status](https://coveralls.io/repos/github/fernandobrito/sigaa_parser/badge.svg?branch=master)](https://coveralls.io/github/fernandobrito/sigaa_parser?branch=master) [![Code Climate](https://codeclimate.com/github/fernandobrito/sigaa_parser/badges/gpa.svg?dummy=true)](https://codeclimate.com/github/fernandobrito/sigaa_parser) [![Issue Count](https://codeclimate.com/github/fernandobrito/sigaa_parser/badges/issue_count.svg?dummy=true)](https://codeclimate.com/github/fernandobrito/sigaa_parser)
 
 Gem to scrap and parse the academic web system (SIGAA) used at UFPB.
 
