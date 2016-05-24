@@ -68,7 +68,7 @@ module SigaaParser
 
     def parse_row_result(row)
       # Regular expression
-      regex = /(\d{4}\.(?:1|2))\s*(\d*)\s*(.*?)(?=\d\d)(\d*)\s*(\d*)\s*((?:--)|(?:\d*))\s*((?:\d{1,2}\.\d{1,2})|(?:--))\s*(.*)/
+      regex = /(\d{4}\.(?:1|2))\s*(\w*)\s*(.*?)(?=\d\d)(\d*)\s*(\d*)\s*((?:--)|(?:\d*))\s*((?:\d{1,2}\.\d{1,2})|(?:--))\s*(.*)/
 
       # Perform match
       semester, course_code, course_name, workload, credits, group, grade, situation = row.match(regex).captures

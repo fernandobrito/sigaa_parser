@@ -12,6 +12,11 @@ describe SigaaParser::TranscriptParser do
       it 'finds all courses' do
         expect(subject.results.size).to be_eql(52)
       end
+
+      it 'parses courses with correct code and name' do
+        course = subject.results.find { |course_result| course_result.code == '1107191' }
+        expect(course.name).to be_eql('INTRODUCAO A INTELIGENCIA ARTIFICIAL')
+      end
     end
 
     context 'when file is a PDF but not a transcript of records' do
