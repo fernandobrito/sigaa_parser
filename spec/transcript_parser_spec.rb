@@ -5,8 +5,11 @@ describe SigaaParser::TranscriptParser do
   describe '#new' do
     context 'when file is a PDF and a transcript of records' do
       it 'finds student data' do
-        expect(subject.student.name).to be_eql('FERNANDO SANTOS DE MATTOS BRITO')
-        expect(subject.student.program).to be_eql('CIÊNCIAS DA COMPUTAÇÃO (BACHARELADO) - CI/João Pessoa')
+        STUDENT_NAME = 'FERNANDO SANTOS DE MATTOS BRITO'
+        PROGRAM_NAME = 'CIÊNCIAS DA COMPUTAÇÃO (BACHARELADO) - CI/João Pessoa'
+
+        expect(subject.student.name).to be_eql(STUDENT_NAME)
+        expect(subject.student.program).to be_eql(PROGRAM_NAME)
       end
 
       it 'finds all courses' do

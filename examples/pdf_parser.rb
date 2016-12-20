@@ -4,7 +4,7 @@ parser = SigaaParser::TranscriptParser.new(File.new('../spec/transcripts/1111830
 
 puts parser.course_results.student
 
-puts "Normal:"
+puts 'Normal:'
 parser.course_results.semesters.each do |semester|
   puts "#{semester}: #{parser.course_results.average_up_to(semester)}"
 end

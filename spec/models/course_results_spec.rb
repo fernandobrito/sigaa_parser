@@ -21,5 +21,4 @@ describe SigaaParser::CourseResults do
       expect(subject.average(only_approved: true)).to be(8.12)
     end
   end
-
 end

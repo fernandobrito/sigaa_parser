@@ -1,4 +1,5 @@
 module SigaaParser
+  # Course results data object
   class CourseResults
     attr_accessor :student, :progress
     attr_reader :results
@@ -21,8 +22,8 @@ module SigaaParser
     end
 
     def average_up_to(semester, options = {})
-      if !semesters.include?(semester)
-        raise ArgumentError.new("Invalid semester #{semester}. Choose from #{self.semesters}")
+      unless semesters.include?(semester)
+        raise ArgumentError, "Invalid semester #{semester}. Choose from #{semesters}"
       end
 
       courses = @results.select { |course| course.semester <= semester }
@@ -37,4 +38,3 @@ module SigaaParser
     end
   end
 end
-

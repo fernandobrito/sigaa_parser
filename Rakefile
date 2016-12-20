@@ -9,4 +9,4 @@ RSpec::Core::RakeTask.new('spec:ci') do |task|
   task.rspec_opts = ['--color', '--format', 'documentation', '--tag', '~headless']
 end
 
-task :default => :spec
+task default: :spec

@@ -1,4 +1,5 @@
 module SigaaParser
+  # Curriculum data object
   class Curriculum
     attr_reader :code, :name, :semesters, :faculty
 
@@ -18,7 +19,7 @@ module SigaaParser
     end
 
     def to_hash
-      courses = @courses.map { |c| c.to_hash }
+      courses = @courses.map(&:to_hash)
 
       to_hash_short.merge(courses: courses)
     end

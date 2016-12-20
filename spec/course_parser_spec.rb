@@ -1,6 +1,6 @@
 shared_examples 'parses course' do
   it 'should find the prerequisites' do
-    expect(subject.prerequisites.size).to be(5)
+    expect(subject.prerequisites.size).to be(6)
   end
 end
 

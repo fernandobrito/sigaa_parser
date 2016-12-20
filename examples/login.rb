@@ -7,4 +7,3 @@ parser = SigaaParser::Scraper.new
 student = parser.authenticate!
 
 pp student
-

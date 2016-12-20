@@ -1,4 +1,7 @@
 module SigaaParser
+  # Template design pattern to calculate the average over
+  # course results. Sub classes can override the filter method,
+  # for example
   class AverageCalculatorTemplate
     def initialize(results)
       @results = results
@@ -6,13 +9,16 @@ module SigaaParser
     end
 
     def calculate
-      filter_results()
-      do_calculations()
-      format_output()
+      filter_results
+      do_calculations
+      format_output
     end
 
     protected
-    def filter_results ; end
+
+    def filter_results
+      nil
+    end
 
     def do_calculations
       total = @results.map { |course| course.grade.to_f * course.credits.to_i }.inject(:+)
@@ -29,8 +35,9 @@ module SigaaParser
   # Does not include "REPROVADO, MATRICULADO, REP. FALTA"
   class AverageCalculatorOnlyApproved < AverageCalculatorTemplate
     protected
+
     def filter_results
-      situations = %w{APROVADO DISPENSADO}
+      situations = %w(APROVADO DISPENSADO)
       @results.select! { |result| situations.include?(result.situation) }
     end
   end
@@ -38,8 +45,9 @@ module SigaaParser
   # Does not include "MATRICULADO"
   class AverageCalculatorOnlyCompleted < AverageCalculatorTemplate
     protected
+
     def filter_results
-      situations = %w{APROVADO DISPENSADO REPROVADO REP.\ FALTA}
+      situations = %w(APROVADO DISPENSADO REPROVADO REP.\ FALTA)
       @results.select! { |result| situations.include?(result.situation) }
     end
   end

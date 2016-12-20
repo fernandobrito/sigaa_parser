@@ -1,4 +1,6 @@
 module SigaaParser
+  # Facade to make it easy to parse all courses and prerequisites of given
+  # curricula codes.
   class ScraperFacade
     def initialize
       # Create parser

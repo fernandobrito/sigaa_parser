@@ -1,6 +1,9 @@
 module SigaaParser
+  # Exception for failed authentication
   class AuthenticationFailed < Exception ; end
 
+  # Main scraper class. Includes authentication methods
+  # and exposes browser to be used by parsers
   class Scraper
     def initialize
       watir = Watir::Browser.new :phantomjs, args: '--ssl-protocol=any'
@@ -12,7 +15,7 @@ module SigaaParser
     # Return browser. If not authenticated yet, do it
     def browser
       authenticate! unless @authenticated
-      
+
       @browser
     end
 
@@ -25,7 +28,7 @@ module SigaaParser
       @browser.visit('https://sigaa.ufpb.br/sigaa/escolhaVinculo.do?dispatch=escolher&vinculo=1')
 
       # Parse student data
-      return parse_student_data(@browser.source_code)
+      parse_student_data(@browser.source_code)
     end
 
     def fill_and_submit_login_form(login, password)
@@ -36,15 +39,16 @@ module SigaaParser
       @browser.visit('https://sigaa.ufpb.br/sigaa/verTelaLogin.do')
 
       # Fill form
-      @browser.text_field(:name => 'user.login').set login
-      @browser.text_field(:name => 'user.senha').set password
+      @browser.text_field(name: 'user.login').set login
+      @browser.text_field(name: 'user.senha').set password
 
       # Submit form
-      @browser.button(:text => 'Entrar').click
+      @browser.button(text: 'Entrar').click
 
       # Check if login worked
-      if Nokogiri::HTML(@browser.source_code).search('//*[@id="conteudo"]/center[2]').text.include?('inválidos')
-        raise SigaaParser::AuthenticationFailed.new('Authentication failed. Please check your username and password.')
+      if login_worked
+        raise SigaaParser::AuthenticationFailed,
+              'Authentication failed. Please check your username and password.'
       end
 
       @authenticated = true
@@ -52,16 +56,27 @@ module SigaaParser
 
     # Parse details from the student
     # @return [Student]
+    ID_XPATH = ".//td[contains(., 'Matrícula')]/following-sibling::td[1]"
+    PROGRAM_XPATH = "//td[contains(., 'Curso:')]/following-sibling::td[1]"
+
     def parse_student_data(html_string)
       page = Nokogiri::HTML(html_string)
 
       id = page.search('#agenda-docente')
-               .search(".//td[contains(., 'Matrícula')]/following-sibling::td[1]")
+               .search(ID_XPATH)
                .text.remove_tabulation
       name = page.search('.nome').text.remove_tabulation
-      program = page.search("//td[contains(., 'Curso:')]/following-sibling::td[1]").text.remove_tabulation
+      program = page.search(PROGRAM_XPATH).text.remove_tabulation
 
       SigaaParser::Student.new(id, name, program)
+    end
+
+    protected
+
+    def login_worked
+      Nokogiri::HTML(@browser.source_code)
+          .search('//*[@id="conteudo"]/center[2]')
+          .text.include?('inválidos')
     end
   end
 end

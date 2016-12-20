@@ -1,4 +1,5 @@
 module SigaaParser
+  # Student data object
   class Student
     attr_reader :id, :name, :program
 
@@ -8,9 +9,9 @@ module SigaaParser
       @program = program
     end
 
-    def ==(student)
-      (student.class == self.class && self.id == student.id &&
-          self.name == student.name && self.program == student.program)
+    def ==(other)
+      (other.class == self.class && id == other.id &&
+          name == other.name && program == other.program)
     end
 
     def to_s

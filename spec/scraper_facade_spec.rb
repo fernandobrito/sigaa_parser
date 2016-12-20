@@ -1,5 +1,6 @@
 describe SigaaParser::ScraperFacade, headless: true do
   describe '#parse_curricula' do
+    COURSE_NAME = 'CIÊNCIAS DA COMPUTAÇÃO - João Pessoa - Presencial - MT - BACHARELADO'
     subject { SigaaParser::ScraperFacade.new.parse_curricula(['1626669']) }
 
     context 'given code for one course' do
@@ -8,7 +9,7 @@ describe SigaaParser::ScraperFacade, headless: true do
       end
 
       it 'should have correct name' do
-        expect(subject.first.name).to eq('CIÊNCIAS DA COMPUTAÇÃO - João Pessoa - Presencial - MT - BACHARELADO')
+        expect(subject.first.name).to eq(COURSE_NAME)
       end
 
       it 'should have all courses' do

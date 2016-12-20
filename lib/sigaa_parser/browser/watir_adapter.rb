@@ -1,3 +1,4 @@
+# An adapter to the Watir browser driver
 class WatirAdapter
   def initialize(object)
     @watir = object

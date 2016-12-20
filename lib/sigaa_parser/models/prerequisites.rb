@@ -1,5 +1,5 @@
 module SigaaParser
-  # A course has prerequesits according to a curriculum
+  # A course has prerequisites according to a curriculum
   class Prerequisites
     attr_reader :curriculum, :program, :courses
 

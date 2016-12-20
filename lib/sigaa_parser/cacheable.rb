@@ -1,4 +1,5 @@
 module SigaaParser
+  # Mixin to add cache functionality to scrapers
   module Cacheable
     CACHE_FOLDER = File.join(File.dirname(__FILE__), '..', '..', 'cache')
     EXTENSION = '.html'
@@ -10,6 +11,7 @@ module SigaaParser
       end
     end
 
+    # Class methods to enable and disable cache
     module ClassMethods
       def cache_enabled
         @cache_enabled
@@ -20,21 +22,24 @@ module SigaaParser
       end
     end
 
-    def has_cached?(name)
-      File.exists?(file_path(name))
+    def cached_page?(name)
+      File.exist?(file_path(name))
     end
 
     def retrieve_cache_path(name)
       file_path(name)
     end
 
-    def store_cache(name, page)
+    def store_cache_if_enabled(name, page)
+      return unless self.class.cache_enabled
+
       File.open(file_path(name), 'w') do |file|
         file.write(page)
       end
     end
 
-  private
+    private
+
     def file_path(name)
       File.join(CACHE_FOLDER, "#{name}.html")
     end

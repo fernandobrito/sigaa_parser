@@ -4,8 +4,8 @@ require_relative '../lib/sigaa_parser'
 
 # CIENCIAS DA COMPUTAÇÃO, ENGENHARIA DE COMPUTAÇÃO, MATEMÁTICA COMPUTACIONAL
 # ADMINISTRAÇÃO, MEDICINA, DIREITO
-CURRICULA_CODES = %w{ 1626669 1626865 1626769
-                      1626692 1626795 1626727 }
+CURRICULA_CODES = %w(1626669 1626865 1626769
+                     1626692 1626795 1626727).freeze
 
 def save_to_file(filename, content)
   File.open('output/' + filename, 'w') do |file|
@@ -33,7 +33,7 @@ def download_all
 
   # Converts to JSON and save file
   curricula_json = curricula.map(&:to_hash_short)
-  save_to_file('curricula.json', JSON.pretty_generate({ curricula: curricula_json }))
+  save_to_file('curricula.json', JSON.pretty_generate(curricula: curricula_json))
 
   # Download courses from each curriculum and dump to file
   process_curricula(scraper, curricula)
@@ -46,7 +46,6 @@ def process_curricula(scraper, curricula)
 
   curricula.each do |curriculum|
     curriculum.courses.each do |course|
-
       # Get all prerequisites, for all curricula
       course.prerequisites = course_parser.retrieve_and_parse(course.code).prerequisites
 
@@ -54,7 +53,8 @@ def process_curricula(scraper, curricula)
       course.prerequisites.keep_if { |p| p.curriculum == curriculum.code }
     end
 
-    save_to_file("#{curriculum.code}.json", JSON.pretty_generate({ curriculum: curriculum.to_hash }))
+    save_to_file("#{curriculum.code}.json",
+                 JSON.pretty_generate(curriculum: curriculum.to_hash))
   end
 end
 

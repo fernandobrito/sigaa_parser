@@ -1,4 +1,5 @@
 module SigaaParser
+  # Course data object
   class Course
     # Require fields. Used for comparison
     attr_reader :code
@@ -6,7 +7,7 @@ module SigaaParser
     # Optional fields
     attr_reader :name, :semester, :workload, :type, :category
 
-    # See Prerequesites model
+    # See Prerequisites model
     attr_accessor :prerequisites
 
     def initialize(code, name = nil, semester = nil, workload = nil, type = nil, category = nil)
@@ -26,24 +27,23 @@ module SigaaParser
     end
 
     def prerequisites_for(code)
-      @prerequisites.select{ |pre| pre.curriculum.include?(code) }
+      @prerequisites.select { |pre| pre.curriculum.include?(code) }
     end
 
     def prerequisites_courses
-      if @prerequisites && @prerequisites.size > 0
+      if @prerequisites && ! @prerequisites.empty?
         @prerequisites.first.courses.map(&:code)
       else
         []
       end
     end
 
-    def ==(course)
-      (course.class == self.class && self.code == course.code)
+    def ==(other)
+      (other.class == self.class && code == other.code)
     end
 
     def to_s
-      # "#{@code} - #{@name}"
-      "#{code}"
+      code.to_s
     end
 
     def to_hash
