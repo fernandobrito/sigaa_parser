@@ -1,6 +1,6 @@
 module SigaaParser
   # Exception for failed authentication
-  class AuthenticationFailed < Exception ; end
+  class AuthenticationFailed < RuntimeError ; end
 
   # Main scraper class. Includes authentication methods
   # and exposes browser to be used by parsers

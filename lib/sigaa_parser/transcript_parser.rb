@@ -6,9 +6,9 @@ module SigaaParser
   # Usage: Initialize an instance passing the file to the constructor. File
   #  is automatically parsed and data is accessed via attributes.
   class TranscriptParser
-    class InvalidFileExtension < Exception ; end
-    class InvalidFileFormat < Exception ; end
-    class ParsingError < Exception ; end
+    class InvalidFileExtension < RuntimeError ; end
+    class InvalidFileFormat < RuntimeError ; end
+    class ParsingError < RuntimeError ; end
 
     VALID_EXTENSION = '.pdf'.freeze
 
