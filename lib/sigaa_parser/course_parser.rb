@@ -29,7 +29,7 @@ module SigaaParser
       click_on_result
 
       # Store on cache
-      store_cache_if_enabled(cache_name, browser.source_code)
+      store_cache_if_enabled(cache_name(code), browser.source_code)
 
       browser.source_code
     end
