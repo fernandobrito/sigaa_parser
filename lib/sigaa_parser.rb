@@ -24,6 +24,7 @@ require_relative 'sigaa_parser/curriculum_parser'
 require_relative 'sigaa_parser/course_parser'
 require_relative 'sigaa_parser/transcript_parser'
 require_relative 'sigaa_parser/scraper_facade'
+require_relative 'sigaa_parser/evaluation_results_scraper'
 
 # Browser
 require_relative 'sigaa_parser/browser/browser_adapter'
