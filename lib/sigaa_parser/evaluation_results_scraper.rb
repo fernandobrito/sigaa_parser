@@ -15,17 +15,15 @@ module SigaaParser
     # @param [String] semester year and semester (eg: '2014.2')
     # @return [String] HTML content of the page
     def retrieve(department, semester)
-      if self.class.cache_enabled
-        # Look for cached version
-        cache_name = cache_name(department, semester)
-        return File.read(retrieve_cache_path(cache_name)) if cached_page?(cache_name)
-      end
+      cached_name = cache_name(department, semester)
+      cached = retrieve_cache_if_enabled_and_available(cached_name)
+      return cached if cached
 
       navigate_to_right_page
       fill_and_submit_form(department, semester)
 
       # Store on cache
-      store_cache_if_enabled(cache_name(department, semester), browser.source_code)
+      store_cache_if_enabled(cached_name, browser.source_code)
 
       browser.source_code
     end

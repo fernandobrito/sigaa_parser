@@ -18,11 +18,8 @@ module SigaaParser
 
     # @return [String] HTML content of the page
     def retrieve(code)
-      if self.class.cache_enabled
-        # Look for cached version
-        cache_name = cache_name(code)
-        return File.read(retrieve_cache_path(cache_name)) if cached_page?(cache_name)
-      end
+      cached = retrieve_cache_if_enabled_and_available(cache_name(code))
+      return cached if cached
 
       navigate_to_right_page
       fill_and_submit_form(code)

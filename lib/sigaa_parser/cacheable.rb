@@ -38,6 +38,12 @@ module SigaaParser
       end
     end
 
+    def retrieve_cache_if_enabled_and_available(cache_name)
+      return unless self.class.cache_enabled
+
+      File.read(retrieve_cache_path(cache_name)) if cached_page?(cache_name)
+    end
+
     private
 
     def file_path(name)
