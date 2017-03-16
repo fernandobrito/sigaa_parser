@@ -12,6 +12,14 @@ module SigaaParser
       "eval-result-#{department}-#{semester}"
     end
 
+    # @return [Array] name of departments
+    def retrieve_departments_available
+      navigate_to_right_page
+
+      field = browser.select_list(name: 'form:escolha_relatorio')
+      field.options[1..-1].map(&:text) # First option is "--- SELECIONE ---"
+    end
+
     # @param [String] department the full name of department (eg: 'CI - DEPARTAMENTO DE INFORMÁTICA')
     # @param [String] semester year and semester (eg: '2014.2')
     # @return [String] HTML content of the page

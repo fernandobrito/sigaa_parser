@@ -1,12 +1,5 @@
 require_relative '../lib/sigaa_parser'
 
-DEPARTMENTS = ['CI - DEPARTAMENTO DE INFORMÁTICA', 'CCEN - DEPARTAMENTO DE ESTATÍSTICA',
-               'CCEN - DEPARTAMENTO DE FÍSICA', 'CCHLA - DEPARTAMENTO DE CIÊNCIAS SOCIAIS',
-               'CCHLA - DEPARTAMENTO DE FILOSOFIA', 'CCHLA - DEPARTAMENTO DE LETRAS CLÁSSICAS E VERNÁCULAS',
-               'CCHLA - DEPARTAMENTO DE LETRAS ESTRANGEIRAS E MODERNAS', 'CCHLA - DEPARTAMENTO DE PSICOLOGIA',
-               'CCJ - DEPARTAMENTO DE DIREITO PÚBLICO', 'CCS - DEPARTAMENTO DE EDUCAÇÃO FÍSICA',
-               'CCSA - DEPARTAMENTO DE ADMINISTRACAO', 'CCSA - DEPARTAMENTO DE FINANÇAS E CONTABILIDADE',
-               'CCTA - DEPARTAMENTO DE COMUNICAÇÃO', 'CI - DEPARTAMENTO DE COMPUTAÇÃO CIENTÍFICA']
 SEMESTERS = %w(2014.1 2014.2 2015.1 2015.2)
 
 def save_to_file_as_json(filename, collection)
@@ -22,7 +15,9 @@ def download_all
 
   entries = []
 
-  DEPARTMENTS.each do |department|
+  departments = scraper.retrieve_departments_available
+
+  departments.each do |department|
     SEMESTERS.each do |semester|
       puts "Parsing #{department} #{semester}"
       html = scraper.retrieve(department, semester)
