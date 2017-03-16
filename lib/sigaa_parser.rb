@@ -5,6 +5,11 @@ require 'interface'
 require 'dotenv'
 require 'pp'
 
+begin
+  require 'pry'
+rescue LoadError
+end
+
 require 'active_support/core_ext/array'
 
 Dotenv.load
@@ -25,6 +30,7 @@ require_relative 'sigaa_parser/course_parser'
 require_relative 'sigaa_parser/transcript_parser'
 require_relative 'sigaa_parser/scraper_facade'
 require_relative 'sigaa_parser/evaluation_results_scraper'
+require_relative 'sigaa_parser/evaluation_results_parser'
 
 # Browser
 require_relative 'sigaa_parser/browser/browser_adapter'
@@ -37,6 +43,7 @@ require_relative 'sigaa_parser/models/prerequisites'
 require_relative 'sigaa_parser/models/curriculum'
 require_relative 'sigaa_parser/models/course_result'
 require_relative 'sigaa_parser/models/course_results'
+require_relative 'sigaa_parser/models/evaluation_result'
 require_relative 'sigaa_parser/models/course_results/progress'
 require_relative 'sigaa_parser/models/course_results/average_calculator_template'
 

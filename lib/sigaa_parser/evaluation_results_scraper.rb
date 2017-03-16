@@ -1,4 +1,5 @@
 module SigaaParser
+  # Retrieve page with evaluation results
   class EvaluationResultsScraper
     include SigaaParser::Cacheable
     include SigaaParser::MenuNavigator
